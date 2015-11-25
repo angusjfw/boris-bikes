@@ -11,8 +11,20 @@ end
 it "can doc to station" do
   expect(subject).to respond_to(:dock).with(1).argument
 end
-it "tells us number of bikes" do
-  expect(subject).to respond_to :no_bikes
+it "responds to bike" do
+  expect(subject).to respond_to :bike
+end
+it "docks something" do
+  bike = Bike.new
+  expect(subject.dock(bike)).to eq bike
+end
+it "returns docked bikes" do
+  bike = Bike.new
+  subject.dock(bike)
+  expect(subject.bike).to eq bike
+end
+it "says false if no bikes" do
+  expect { subject.release_bike }.to raise_error
 end
 
 end
