@@ -8,7 +8,7 @@ it "released bike is working" do
   bike = Bike.new
   subject.dock(bike)
   release_bike = subject.release_bike
-  expect(release_bike).to be_working
+  expect(release_bike.working).to eq true
 end
 it "can doc to station" do
   expect(subject).to respond_to(:dock).with(1).argument
