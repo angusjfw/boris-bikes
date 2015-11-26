@@ -35,19 +35,18 @@ describe "#dock" do
   end
 
   context "system maintainer has raised capacity" do
-    
+    subject {DockingStation.new(60)}
+    let(:bike) {Bike.new}
 
     it "accepts more bikes than before" do
-      station = DockingStation.new(60)
-      DockingStation::DEFAULT_CAPACITY.times {station.dock(Bike.new)}
-      expect(station.dock(Bike.new)).to eq station.bikes
+      DockingStation::DEFAULT_CAPACITY.times {subject.dock(bike)}
+      expect(subject.dock(bike)).to eq subject.bikes
     end
 
 
     it "raises an error when station is full" do
-      station = DockingStation.new(60)
-      60.times {station.dock(Bike.new)}
-      expect{station.dock(Bike.new)}.to raise_error 'Docking station full'
+      60.times {subject.dock(bike)}
+      expect{subject.dock(bike)}.to raise_error 'Docking station full'
     end
 
   end
