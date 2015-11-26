@@ -17,6 +17,10 @@ it "responds to bike" do
   expect(subject).to respond_to :bikes
 end
 
+it  'has a default capacity' do
+  expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+end
+
 
 describe "#dock" do
   it "docks something" do
@@ -24,10 +28,29 @@ describe "#dock" do
     expect(subject.dock(bike)).to eq [bike]
   end
 
-    it "raises an error when station is full" do
-      DockingStation::DEFAULT_CAPACITY.times {subject.dock(Bike.new)}
-      expect{subject.dock(Bike.new)}.to raise_error 'Docking station full'
+
+  it "raises an error when station is full" do
+    subject.capacity.times {subject.dock(Bike.new)}
+    expect{subject.dock(Bike.new)}.to raise_error 'Docking station full'
+  end
+
+  context "system maintainer has raised capacity" do
+    
+
+    it "accepts more bikes than before" do
+      station = DockingStation.new(60)
+      DockingStation::DEFAULT_CAPACITY.times {station.dock(Bike.new)}
+      expect(station.dock(Bike.new)).to eq station.bikes
     end
+
+
+    it "raises an error when station is full" do
+      station = DockingStation.new(60)
+      60.times {station.dock(Bike.new)}
+      expect{station.dock(Bike.new)}.to raise_error 'Docking station full'
+    end
+
+  end
 
 
 end
