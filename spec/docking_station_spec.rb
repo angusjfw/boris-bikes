@@ -16,12 +16,8 @@ describe DockingStation do
   end
 
   it "released working bike instead of broken" do
-    working_bike = double :working_bike
-    allow(working_bike).to receive(:working?) {true}
-    subject.dock(working_bike)
-    broken_bike = double :broken_bike
-    allow(broken_bike).to receive(:working?) {false}
-    subject.dock(broken_bike)
+    subject.dock(double(:working_bike, working?: true))
+    subject.dock(double(:broken_bike, working?: false))
     release_bike = subject.release_bike
     expect(release_bike).to be_working
   end
