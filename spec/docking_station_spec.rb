@@ -48,4 +48,9 @@ describe "#release_bike" do
   end
 end
 
+it "can assign a capacity value at initialize" do
+  station = DockingStation.new(40)
+  expect(station.capacity).to eq 40
+end
+
 end
