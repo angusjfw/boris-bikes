@@ -4,10 +4,11 @@ describe DockingStation do
 it "responds to release_bike" do
   expect(subject).to respond_to :release_bike
 end
-it "release_bike gets a bike" do
+it "released bike is working" do
   bike = Bike.new
-  #bike = subject.release_bike
-  expect(bike).to be_working
+  subject.dock(bike)
+  release_bike = subject.release_bike
+  expect(release_bike).to be_working
 end
 it "can doc to station" do
   expect(subject).to respond_to(:dock).with(1).argument
@@ -24,7 +25,7 @@ describe "#dock" do
   end
 
     it "raises an error when station is full" do
-      20.times {subject.dock(Bike.new)}
+      DockingStation::DEFAULT_CAPACITY.times {subject.dock(Bike.new)}
       expect{subject.dock(Bike.new)}.to raise_error 'Docking station full'
     end
 
