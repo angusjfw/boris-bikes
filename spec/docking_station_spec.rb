@@ -4,17 +4,20 @@ describe DockingStation do
 it "responds to release_bike" do
   expect(subject).to respond_to :release_bike
 end
+
+let(:bike) { double :bike }
+
 it "released bike is working" do
-  bike = Bike.new
-  subject.dock(bike)
-  release_bike = subject.release_bike
-  expect(release_bike).to be_working
+  allow(bike).to receive(:working).and_return(true)
+  subject.dock double(:bike)
+  bike = subject.release_bike
+  expect(bike).to be_working
 end
 
 it "released working bike instead of broken" do
-  working_bike = Bike.new
+  working_bike = double(:bike)
   subject.dock(working_bike)
-  broken_bike = Bike.new.broken
+  broken_bike = double(:bike).broken
   subject.dock(broken_bike)
   release_bike = subject.release_bike
   expect(release_bike).to be_working
@@ -22,7 +25,7 @@ end
 
 
 it "will not release if all bikes broken" do
-  subject.capacity.times {subject.dock(Bike.new.broken)}
+  subject.capacity.times {subject.dock(double(:bike).broken)}
   expect{subject.release_bike}.to raise_error "All bikes broken"
 end
 
@@ -40,19 +43,19 @@ end
 
 describe "#dock" do
   it "docks something" do
-    bike = Bike.new
+    bike = double(:bike)
     expect(subject.dock(bike)).to eq [bike]
   end
 
 
   it "raises an error when station is full" do
-    subject.capacity.times {subject.dock(Bike.new)}
-    expect{subject.dock(Bike.new)}.to raise_error 'Docking station full'
+    subject.capacity.times {subject.dock(double(:bike))}
+    expect{subject.dock(double(:bike))}.to raise_error 'Docking station full'
   end
 
   context "system maintainer has raised capacity" do
     subject {DockingStation.new(60)}
-    let(:bike) {Bike.new}
+    let(:bike) {double(:bike)}
 
     it "accepts more bikes than before" do
       DockingStation::DEFAULT_CAPACITY.times {subject.dock(bike)}
@@ -71,13 +74,13 @@ describe "#dock" do
 end
 
 it "returns docked bikes" do
-  bike = Bike.new
+  bike = double(:bike)
   subject.dock(bike)
   expect(subject.bikes).to eq [bike]
 end
 describe "#release_bike" do
   it 'releases a bike' do
-    bike = Bike.new
+    bike = double(:bike)
     subject.dock(bike)
     expect(subject.release_bike).to eq bike
   end
