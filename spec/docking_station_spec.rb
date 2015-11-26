@@ -10,6 +10,22 @@ it "released bike is working" do
   release_bike = subject.release_bike
   expect(release_bike).to be_working
 end
+
+it "released working bike instead of broken" do
+  working_bike = Bike.new
+  subject.dock(working_bike)
+  broken_bike = Bike.new.broken
+  subject.dock(broken_bike)
+  release_bike = subject.release_bike
+  expect(release_bike).to be_working
+end
+
+
+it "will not release if all bikes broken" do
+  subject.capacity.times {subject.dock(Bike.new.broken)}
+  expect{subject.release_bike}.to raise_error "All bikes broken"
+end
+
 it "can doc to station" do
   expect(subject).to respond_to(:dock).with(1).argument
 end

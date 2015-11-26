@@ -9,7 +9,7 @@ end
 end
 
 it "Member of public can report bike is broken" do
-  subject.working = false
+  subject.broken
   expect(subject).not_to be_working
 end
 
