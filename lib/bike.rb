@@ -7,7 +7,6 @@ class Bike
 
   def working?
     @working
-
   end
 
   def broken
@@ -15,7 +14,9 @@ class Bike
     self
   end
 
-
-
+  def fix!
+    @working = true
+    self
+  end
 
 end
